@@ -1,0 +1,60 @@
+extends layout
+
+block content
+    .card
+        .card-content
+            .title.is-4
+                if user.gender === 'm'
+                    | 👨
+                else
+                    | 👩
+                | &nbsp;#{user.firstname} #{user.lastname}
+                if isCurrentUser
+                    | &nbsp;
+                    span.tag это вы
+
+            .block
+                | Возраст: #{user.age}, #{user.city}
+
+            .block
+                a(href=`/profile/${user.id}/friends`) Друзья пользователя
+
+            if !isCurrentUser
+                if hasFriendship
+                    form(method='POST', action='/profile/friends/stop').block
+                        input(type='hidden', value=user.id, name='user_id')
+                        button.button.is-light(type="submit") Прекратить дружбу
+                else
+                    form(method='POST', action='/profile/friends/add').block
+                        input(type='hidden', value=user.id, name='user_id')
+                        button.button.is-light(type="submit") Добавить в друзья
+
+            .title.is-5 Интересы
+
+            if interests.length > 0
+                .tags
+                    each interest in interests
+                        if isCurrentUser
+                            a(href=`/profile/interest/delete/${interest.id}`, title='Удалить').tag.is-dark= interest.interest
+                        else
+                            span.tag.is-dark= interest.interest
+            else
+                .block
+                    | Интересы не указаны
+
+            if isCurrentUser
+                if interests.length > 0
+                    span.help Используйте клик на интересе для удаления
+
+                hr
+
+                .block
+                    form(method='POST', action='/profile/interest/add')
+                        .has-text-weight-bold Добавить интерес
+
+                        .field.mt-2
+                            .control
+                                input.input(type="text", name="interest", placeholder="Интерес для добавления", maxlength=40, required)
+
+                        .field
+                            button.button.is-success(type="submit") Добавить

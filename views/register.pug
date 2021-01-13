@@ -1,0 +1,56 @@
+extends layout
+
+block content
+    if message
+        div#message.notification.is-danger #{message}
+    .container
+        .columns.is-centered
+            .column.is-5-tablet.is-4-desktop.is-3-widescreen
+                .title.is-4 Регистрация
+                form.box(method='POST')
+                    .title.is-6 Данные входа
+                    .field
+                        label(for="email").label Email
+                        .control
+                            input#email.input(type="email", name="email", placeholder="Email", value=email || '', required)
+                    .field
+                        label(for="password").label Пароль
+                        .control
+                            input#password.input(type="text", name="password", placeholder="Пароль", required)
+                        span.help Не скрыт.
+                        span.help Должен быть длиной 8 или больше.
+
+                    hr
+
+                    .title.is-6 Личные данные
+
+                    .field.is-horizontal
+                        .field
+                            .control
+                                input.input(name="firstname", placeholder="Имя", value=firstname || '', maxlength=40, required)
+                        .field
+                            .control
+                                input.input(name="lastname", placeholder="Фамилия", value=lastname || '', maxlength=40, required)
+
+                    .field
+                        .control
+                            label.radio
+                                input(type="radio", name="gender", value="m", checked=!gender || gender === 'm')
+                                span.ml-1 М
+
+                            label.radio
+                                input(type="radio", name="gender", value="f", checked=gender === 'f')
+                                span.ml-1 Ж
+
+                    .field
+                        label(for="age").label Возраст
+                        .control
+                            input#age.input(type="number", name="age", placeholder="Возраст", min=18, max=120, step=1, value=age || '', required)
+
+                    .field
+                        label(for="city").label City
+                        .control
+                            input#city.input(type="text", name="city", placeholder="Город", value=city || '', maxlength=40, required)
+
+                    .field
+                        button.button.is-success(type="submit") Зарегистрироваться

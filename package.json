@@ -10,10 +10,16 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
+    "dotenv-defaults": "^2.0.1",
     "express": "~4.16.0",
+    "express-mysql-session": "^2.1.5",
+    "express-mysql2-session-promise-adapter": "^1.0.3",
+    "express-session": "^1.17.1",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
-    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.4"
   },
   "devDependencies": {

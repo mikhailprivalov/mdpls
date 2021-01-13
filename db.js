@@ -1,7 +1,5 @@
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
-const connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
+const pool = mysql.createPool(process.env.CLEARDB_DATABASE_URL + '?multipleStatements=true&connectionLimit=2');
 
-connection.connect();
-
-module.exports = connection;
+module.exports = pool;

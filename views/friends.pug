@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    .card
+        .card-content
+            .title.is-4
+                a(href=`/profile/${user.id}`) ⏪ назад&nbsp;&nbsp;
+                | Друзья пользователя&nbsp;
+                if user.gender === 'm'
+                    | 👨
+                else
+                    | 👩
+                | &nbsp;#{user.firstname} #{user.lastname}
+                if isCurrentUser
+                    | &nbsp;
+                    span.tag это вы
+
+            each friend in friends
+                .block
+                    .title.is-5
+                        if friend.gender === 'm'
+                            | 👨
+                        else
+                            | 👩
+                        | &nbsp;#{friend.firstname} #{friend.lastname}
+
+                    a(href=`/profile/${friend.id}`).button.is-light
+                        | Профиль

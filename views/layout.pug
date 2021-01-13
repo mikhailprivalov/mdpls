@@ -1,7 +1,32 @@
 doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+html(style='min-width: 1024px')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0, min-width=1024')
+        title #{title} — MDPLS
+        link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css')
+    body(style='min-width: 1024px')
+        nav.navbar(style='min-width: 1024px')
+            .navbar-brand
+                a(href='/').navbar-item.is-size-3.has-text-weight-medium.is-italic SAFEPLACE
+            .navbar-item
+                if !authorised
+                    .buttons
+                        a(href='/user/register').button.is-primary
+                            strong Регистрация
+                        a(href='/user/login').button.is-light
+                            | Вход
+                else
+                    span.navbar-item Вы вошли как #{email}
+                    .buttons
+                        a(href=`/profile/${user_id}`).button.is-light
+                            | Ваш профиль
+                        a(href=`/profile/${user_id}/friends`).button.is-light
+                            | Ваши друзья
+                        a(href='/user/logout').button.is-light
+                            | Выход
+        section.section(style='min-width: 1024px')
+            .container
+                block content
+
+        script(src='https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js')

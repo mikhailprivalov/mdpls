@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    if message
+        div#message.notification.is-danger #{message}
+    .container
+        .columns.is-centered
+            .column.is-5-tablet.is-4-desktop.is-3-widescreen
+                .title.is-4 Вход
+                form.box(method='POST')
+                    .title.is-6 Данные входа
+                    .field
+                        label(for="email").label Email
+                        .control
+                            input#email.input(type="email", name="email", placeholder="Email", value=email || '', required)
+                    .field
+                        label(for="password").label Пароль
+                        .control
+                            input#password.input(type="password", name="password", placeholder="Пароль", required)
+
+                    .field
+                        button.button.is-success(type="submit") Войти
