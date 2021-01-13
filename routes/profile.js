@@ -29,6 +29,33 @@ router.get('/interest/delete/:id', ensureAuthenticated, async(req, res) => {
     res.redirect(303, `/profile/${userId}`);
 });
 
+router.get('/search', ensureAuthenticated, async (req, res, next) => {
+    const limit = 30;
+    const page = Number(req.query.page) || 1;
+    const offset = limit * (page - 1);
+
+    const [users] = await db.query(
+        'SELECT id, firstname, lastname, age, gender, city FROM users ORDER BY id LIMIT ? OFFSET ?',
+        [limit, offset]
+    );
+
+    const [rows] = await db.query(
+        'SELECT count(id) as count FROM users'
+    );
+
+    const count = rows[0].count;
+
+    const pages = Math.ceil(count / limit);
+
+    return res.render('search', {
+        title: 'Поиск',
+        users,
+        page,
+        pages,
+        count,
+    });
+});
+
 router.get('/:id', ensureAuthenticated, async (req, res, next) => {
     const id = Number(req.params.id);
 
@@ -71,7 +98,7 @@ router.get('/:id/friends', ensureAuthenticated, async (req, res, next) => {
     if (user) {
         const [friends] = await db.query('SELECT users.id AS id, firstname, lastname, gender FROM users, friendship WHERE (friendship.requester_user_id = ? or friendship.target_user_id = ?) AND users.id != ? AND (users.id = friendship.requester_user_id OR users.id = friendship.target_user_id) GROUP BY users.id', [id, id, id]);
         return res.render('friends', {
-            title: `${user.firstname} ${user.lastname}`,
+            title: `Друзья ${user.firstname} ${user.lastname}`,
             user,
             isCurrentUser: req.user.id === id,
             friends,

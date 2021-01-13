@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    .card
+        .card-content
+            .title.is-4 Поиск
+
+            each user in users
+                .block
+                    .title.is-5
+                        if user.gender === 'm'
+                            | 👨
+                        else
+                            | 👩
+                        | &nbsp;#{user.firstname} #{user.lastname}
+
+                    a(href=`/profile/${user.id}`).button.is-light
+                        | Профиль
+
+            nav.pagination(role='navigation' aria-label='pagination')
+                if page > 1
+                    a(href=`?page=${parseInt(page) - 1}`).pagination-previous Назад
+                ul.pagination-list
+                    - let i = 1
+                    while i <= pages
+                        li
+                            a(href=`?page=${i}`, class=(i === page ? 'is-current' : '')).pagination-link= i++
+                if page < pages
+                    a(href=`?page=${parseInt(page) + 1}`).pagination-next Вперёд
