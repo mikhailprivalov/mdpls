@@ -4,15 +4,7 @@ CREATE TABLE `friendship` (
   `requester_user_id` int(11) NOT NULL,
   `target_user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- Create syntax for TABLE 'interests'
-CREATE TABLE `interests` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `interest` varchar(40) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 -- Create syntax for TABLE 'sessions'
 CREATE TABLE `sessions` (
@@ -33,5 +25,6 @@ CREATE TABLE `users` (
   `city` varchar(40) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
   `salt` varchar(255) NOT NULL DEFAULT '',
+  `interests` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;

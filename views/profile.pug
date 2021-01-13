@@ -31,30 +31,20 @@ block content
 
             .title.is-5 Интересы
 
-            if interests.length > 0
-                .tags
-                    each interest in interests
-                        if isCurrentUser
-                            a(href=`/profile/interest/delete/${interest.id}`, title='Удалить').tag.is-dark= interest.interest
-                        else
-                            span.tag.is-dark= interest.interest
-            else
-                .block
-                    | Интересы не указаны
-
             if isCurrentUser
-                if interests.length > 0
-                    span.help Используйте клик на интересе для удаления
-
                 hr
 
                 .block
-                    form(method='POST', action='/profile/interest/add')
-                        .has-text-weight-bold Добавить интерес
-
+                    form(method='POST', action='/profile/interest/save')
                         .field.mt-2
                             .control
-                                input.input(type="text", name="interest", placeholder="Интерес для добавления", maxlength=40, required)
+                                textarea.textarea(name='value', placeholder='Интересы не указаны')= user.interests
 
                         .field
-                            button.button.is-success(type="submit") Добавить
+                            button.button.is-success(type="submit") Сохранить
+            else
+                if user.interests
+                    pre.block.box= user.interests
+                else
+                    .block.help
+                        | Интересы не указаны

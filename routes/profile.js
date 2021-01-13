@@ -4,29 +4,14 @@ const {ensureAuthenticated} = require("../utils");
 
 const router = express.Router();
 
-router.post('/interest/add', ensureAuthenticated, async(req, res) => {
+router.post('/interest/save', ensureAuthenticated, async(req, res) => {
     const {
-        interest,
+        value,
     } = req.body;
-    const userId = req.user.id;
 
-    await db.query('INSERT INTO interests SET ?', {
-        user_id: userId,
-        interest,
-    });
+    await db.query('UPDATE users SET interests = ? WHERE id = ?', [value.trim(), req.user.id]);
 
-    res.redirect(303, `/profile/${userId}`);
-});
-
-router.get('/interest/delete/:id', ensureAuthenticated, async(req, res) => {
-    const {
-        id,
-    } = req.params;
-    const userId = req.user.id;
-
-    await db.query('DELETE FROM interests WHERE user_id = ? AND id = ?', [userId, id]);
-
-    res.redirect(303, `/profile/${userId}`);
+    res.redirect(303, `/profile/${req.user.id}`);
 });
 
 router.get('/search', ensureAuthenticated, async (req, res, next) => {
@@ -60,14 +45,13 @@ router.get('/:id', ensureAuthenticated, async (req, res, next) => {
     const id = Number(req.params.id);
 
     const [rows] = await db.query(
-        'SELECT id, firstname, lastname, age, gender, city FROM users WHERE id = ?',
+        'SELECT id, firstname, lastname, age, gender, city, interests FROM users WHERE id = ?',
         [id]
     );
 
     const [user = {}] = rows || [];
 
     if (user) {
-        const [interests] = await db.query('SELECT id, interest FROM interests WHERE user_id = ?', [id]);
         const isCurrentUser = req.user.id === id;
         let hasFriendship = false;
         if (!isCurrentUser) {
@@ -78,7 +62,6 @@ router.get('/:id', ensureAuthenticated, async (req, res, next) => {
             title: `${user.firstname} ${user.lastname}`,
             user,
             isCurrentUser,
-            interests,
             hasFriendship,
         });
     }
