@@ -16,8 +16,8 @@ router.post('/interest/save', ensureAuthenticated, async(req, res) => {
 
 router.get('/search', async (req, res, next) => {
     const limit = 100;
-    const qf = req.query.qf;
-    const ql = req.query.ql;
+    const qf = req.query.qf || '';
+    const ql = req.query.ql || '';
     const page = Number(req.query.page) || 1;
     const offset = limit * (page - 1);
 
