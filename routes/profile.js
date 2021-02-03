@@ -14,18 +14,24 @@ router.post('/interest/save', ensureAuthenticated, async(req, res) => {
     res.redirect(303, `/profile/${req.user.id}`);
 });
 
-router.get('/search', ensureAuthenticated, async (req, res, next) => {
-    const limit = 30;
+router.get('/search', async (req, res, next) => {
+    const limit = 100;
+    const qf = req.query.qf;
+    const ql = req.query.ql;
     const page = Number(req.query.page) || 1;
     const offset = limit * (page - 1);
 
+    const likeQF = `${qf}%`;
+    const likeQL = `${ql}%`;
+
     const [users] = await db.query(
-        'SELECT id, firstname, lastname, age, gender, city FROM users ORDER BY id LIMIT ? OFFSET ?',
-        [limit, offset]
+        'SELECT id, firstname, lastname, age, gender, city FROM users WHERE firstname LIKE ? AND lastname LIKE ? ORDER BY id LIMIT ? OFFSET ?',
+        [likeQF, likeQL, limit, offset]
     );
 
     const [rows] = await db.query(
-        'SELECT count(id) as count FROM users'
+        'SELECT count(id) as count FROM users WHERE firstname LIKE ? AND lastname LIKE ?',
+        [likeQF, likeQL]
     );
 
     const count = rows[0].count;
@@ -38,6 +44,8 @@ router.get('/search', ensureAuthenticated, async (req, res, next) => {
         page,
         pages,
         count,
+        qf: qf || '',
+        ql: ql || '',
     });
 });
 

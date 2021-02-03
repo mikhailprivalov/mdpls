@@ -67,7 +67,7 @@ router.post('/register', async function (req, res, next) {
         const salt = crypto.randomBytes(64).toString('hex');
         const passwordHashed = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64');
 
-        const tableData = {email, firstname, lastname, gender, age, city, salt, password: passwordHashed};
+        const tableData = {email, firstname, lastname, gender, age, city, salt, password: passwordHashed, interests: ''};
 
         await db.query('INSERT INTO users SET ?', tableData);
 

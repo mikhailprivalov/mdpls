@@ -5,6 +5,15 @@ block content
         .card-content
             .title.is-4 Поиск
 
+            form.mb-5
+                .field.has-addons.has-addons-fullwidth
+                    .control
+                        input(type="text", name="qf", placeholder="Имя", value=qf).input.is-info
+                    .control
+                        input(type="text", name="ql", placeholder="Фамилия", value=ql).input.is-info
+                    .control
+                        button(type="submit").button.is-info Найдётся всё
+
             each user in users
                 .block
                     .title.is-5
@@ -19,11 +28,11 @@ block content
 
             nav.pagination(role='navigation' aria-label='pagination')
                 if page > 1
-                    a(href=`?page=${parseInt(page) - 1}`).pagination-previous Назад
+                    a(href=`?page=${parseInt(page) - 1}&qf=${qf}&ql=${ql}`).pagination-previous Назад
                 ul.pagination-list
                     - let i = 1
                     while i <= pages
                         li
-                            a(href=`?page=${i}`, class=(i === page ? 'is-current' : '')).pagination-link= i++
+                            a(href=`?page=${i}&qf=${qf}&ql=${ql}`, class=(i === page ? 'is-current' : '')).pagination-link= i++
                 if page < pages
-                    a(href=`?page=${parseInt(page) + 1}`).pagination-next Вперёд
+                    a(href=`?page=${parseInt(page) + 1}&qf=${qf}&ql=${ql}`).pagination-next Вперёд
