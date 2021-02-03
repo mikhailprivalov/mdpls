@@ -1,5 +1,8 @@
 require('dotenv-defaults').config();
 
+const posix = require('posix');
+posix.setrlimit('nofile', { soft: 100000, hard: 100000 });
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');

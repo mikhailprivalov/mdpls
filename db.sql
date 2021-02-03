@@ -25,6 +25,7 @@ CREATE TABLE `users` (
   `city` varchar(40) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
   `salt` varchar(255) NOT NULL DEFAULT '',
-  `interests` text NOT NULL,
-  PRIMARY KEY (`id`)
+  `interests` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  PRIMARY KEY (`id`),
+  KEY `name_search_idx` (`firstname`,`lastname`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
