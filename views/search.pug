@@ -26,13 +26,13 @@ block content
                     a(href=`/profile/${user.id}`).button.is-light
                         | Профиль
 
-            nav.pagination(role='navigation' aria-label='pagination')
-                if page > 1
-                    a(href=`?page=${parseInt(page) - 1}&qf=${qf}&ql=${ql}`).pagination-previous Назад
-                ul.pagination-list
-                    - let i = 1
-                    while i <= pages
-                        li
-                            a(href=`?page=${i}&qf=${qf}&ql=${ql}`, class=(i === page ? 'is-current' : '')).pagination-link= i++
-                if page < pages
-                    a(href=`?page=${parseInt(page) + 1}&qf=${qf}&ql=${ql}`).pagination-next Вперёд
+            //nav.pagination(role='navigation' aria-label='pagination')
+            //    if page > 1
+            //        a(href=`?page=${parseInt(page) - 1}&qf=${qf}&ql=${ql}`).pagination-previous Назад
+            //    ul.pagination-list
+            //        - let i = 1
+            //        while i <= pages
+            //            li
+            //                a(href=`?page=${i}&qf=${qf}&ql=${ql}`, class=(i === page ? 'is-current' : '')).pagination-link= i++
+            //    if page < pages
+            //        a(href=`?page=${parseInt(page) + 1}&qf=${qf}&ql=${ql}`).pagination-next Вперёд

@@ -15,35 +15,20 @@ router.post('/interest/save', ensureAuthenticated, async(req, res) => {
 });
 
 router.get('/search', async (req, res, next) => {
-    const limit = 100;
     const qf = req.query.qf || '';
     const ql = req.query.ql || '';
-    const page = Number(req.query.page) || 1;
-    const offset = limit * (page - 1);
 
     const likeQF = `${qf}%`;
     const likeQL = `${ql}%`;
 
-    const [users] = await db.query(
-        'SELECT id, firstname, lastname, age, gender, city FROM users WHERE firstname LIKE ? AND lastname LIKE ? ORDER BY id LIMIT ? OFFSET ?',
-        [likeQF, likeQL, limit, offset]
-    );
-
-    const [rows] = await db.query(
-        'SELECT count(id) as count FROM users WHERE firstname LIKE ? AND lastname LIKE ?',
+    const [users] = (qf && ql) ? await db.query(
+        'SELECT id, firstname, lastname, age, gender, city FROM users WHERE firstname LIKE ? AND lastname LIKE ? ORDER BY id',
         [likeQF, likeQL]
-    );
-
-    const count = rows[0].count;
-
-    const pages = Math.ceil(count / limit);
+    ) : [[]];
 
     return res.render('search', {
         title: 'Поиск',
         users,
-        page,
-        pages,
-        count,
         qf: qf || '',
         ql: ql || '',
     });
